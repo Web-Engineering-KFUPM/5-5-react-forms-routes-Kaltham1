@@ -1,34 +1,36 @@
 import { useState } from "react";
 
 export default function Registration() {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
   const [errors, setErrors] = useState({});
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const nextErrors = {};
-      if (!email.trim()) {
-        nextErrors.email = "Email is required";
-      } else if (!(email.includes("@") && email.endsWith(".com"))) {
-        nextErrors.email = "Enter a valid email address";
-      }
 
-      if (!password.trim()) {
-      nextErrors.password = "Password is required";
-      }
-      
-      if (!gender) {
-       nextErrors.gender = "Please select your gender";
-      }
+    
+    if (!email.trim()) nextErrors.email = "Email is required";
+    else if (!(email.includes("@") && email.endsWith(".com")))
+      nextErrors.email = "Enter a valid email address";
 
-      setErrors(nextErrors);
+    // Password validation
+    if (!password.trim()) nextErrors.password = "Password is required";
+    else if (password.length < 6) {
+      nextErrors.password = "Enter a valid password";
+    }
 
-      if (Object.keys(nextErrors).length > 0) return;
- 
-      alert(`Regiteration submit: ${email}`);
+    // Gender validation
+    if (!gender) nextErrors.gender = "Please select your gender";
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
+
+    
+    alert(`Regiteration submit: ${email}`);
   };
 
   return (
@@ -61,8 +63,12 @@ export default function Registration() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            />
-            {errors.password && <p className="error">{errors.password}</p>}
+            aria-invalid={Boolean(errors.password)}
+            aria-describedby={errors.password ? "password-error" : undefined}
+          />
+          {errors.password && (
+            <p id="password-error" className="error">{errors.password}</p>
+          )}
         </div>
 
         <fieldset className="form-row">
@@ -75,7 +81,7 @@ export default function Registration() {
               value="male"
               checked={gender === "male"}
               onChange={(e) => setGender(e.target.value)}
-            />
+            />{" "}
             Male
           </label>
 
@@ -86,20 +92,21 @@ export default function Registration() {
               value="female"
               checked={gender === "female"}
               onChange={(e) => setGender(e.target.value)}
-            />
+            />{" "}
             Female
           </label>
-            {errors.gender && <p className="error">{errors.gender}</p>}
+
+          {errors.gender && <p className="error">{errors.gender}</p>}
         </fieldset>
 
+          {/*Disable the submit button until all requirements met*/}
+        <button
+          type="submit"
+          className="btn"
           
-       <button
-        type="submit"
-        className="btn"
-        disabled={!email || !password || !gender}
         >
-        Register
-      </button>
+          Register
+        </button>
       </form>
 
       <div className="card info">
