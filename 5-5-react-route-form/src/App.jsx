@@ -151,7 +151,7 @@ import About from "./pages/About";
 import Registration from "./pages/Registration";
 export default function App() {
   return (
-    <BrowserRouter>
+  
     <div className="app">
       <nav className="navbar">
         <div className="brand">🧑‍💻 Student Portal</div>
@@ -183,6 +183,6 @@ export default function App() {
         <span>© {new Date().getFullYear()} React Student Portal</span>
       </footer>
     </div>
-    </BrowserRouter>
+    
   );
 }
